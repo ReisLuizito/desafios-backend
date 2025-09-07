@@ -27,11 +27,9 @@ def test_health_is_public():
     assert r.json()["status"] == "ok"
 
 def test_new_endpoint_is_also_protected():
-    # sem token -> 401
     r = client.get("/another")
     assert r.status_code == 401
 
-    # com token -> 200
     r2 = client.get("/another", headers={"Authorization": f"Bearer {settings.AUTH_TOKEN}"})
     assert r2.status_code == 200
     assert r2.json() == {"ok": True}

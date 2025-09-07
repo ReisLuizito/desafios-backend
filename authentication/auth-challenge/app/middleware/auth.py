@@ -10,7 +10,6 @@ def _extract_token(auth_header: Optional[str]) -> Optional[str]:
     if not auth_header:
         return None
     parts = auth_header.strip().split()
-    # Aceita "Bearer <token>" OU apenas "<token>" (compatível com o exemplo do desafio)
     if len(parts) == 2 and parts[0].lower() == "bearer":
         return parts[1]
     return auth_header.strip()
@@ -21,7 +20,6 @@ class AuthMiddleware(BaseHTTPMiddleware):
         self.validator = validator
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
-        # Libera rotas públicas / utilitárias
         if request.url.path in EXCLUDE_PATHS:
             return await call_next(request)
 
